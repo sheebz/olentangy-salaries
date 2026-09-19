@@ -20,6 +20,10 @@ PRIVATE = False
 PERIOD = "calendar year 2025"
 SOURCE_NAME = "The Columbus Dispatch public payroll database"
 PUBLISHED = "2026-06-29"
+REPO_URL = "https://github.com/sheebz/olentangy-salaries"
+# Version DOI for release v2025.3. Swap for the concept DOI ("Cite all versions" on the
+# Zenodo record) once known, so citations follow the newest annual refresh.
+DOI = "10.5281/zenodo.22849877"
 SOURCE_URL = (
     "https://www.dispatch.com/story/news/local/2026/06/29/"
     "public-payroll-how-central-ohio-government-agencies-spend-your-money/90691984007/"
@@ -149,6 +153,14 @@ values were imputed, corrected or dropped. Column definitions ship in the file m
 
 **Update frequency.** The Dispatch series is ongoing, so expect roughly annual refreshes as \
 new payroll years are released.
+
+## Citing this dataset
+
+> Schieber, R. (2026). *Olentangy School District Employee Salaries (2025)*. Zenodo. \
+https://doi.org/{doi}
+
+The pipeline that produces these files is open source, so every transformation described \
+above is inspectable and re-runnable: {repo_url}
 """
 
 
@@ -209,6 +221,7 @@ def kaggle_bundle() -> dg.MaterializeResult:
         role_table=role_table, period=PERIOD, with_days=with_days, dash0_roles=dash0_roles,
         dash0_employees=dash0_employees, dash0_multi=dash0_multi, dash0_median=dash0_median,
         teacher_median=teacher_median, source_name=SOURCE_NAME, source_url=SOURCE_URL,
+        doi=DOI, repo_url=REPO_URL,
     )
 
     def fields(cols, docs):
