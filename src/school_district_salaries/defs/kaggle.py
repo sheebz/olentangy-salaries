@@ -13,9 +13,10 @@ import duckdb
 from .assets import DUCKDB_PATH, GOLD_DIR, KAGGLE_DIR, SOURCE_CSV, salaries_modeled
 
 KAGGLE_ID = "robschieber/olentangy-school-district-salaries-2025"
-# `kaggle datasets metadata --update` re-applies this value, so flipping the dataset to
-# public in the web UI without flipping this will silently make it private again.
-PRIVATE = True
+# `kaggle datasets metadata --update` re-applies this value, so it is the source of
+# truth for visibility — flipping it in the web UI alone would be undone by the next
+# publish. Public since 2026-09-19.
+PRIVATE = False
 PERIOD = "calendar year 2025"
 SOURCE_NAME = "The Columbus Dispatch public payroll database"
 PUBLISHED = "2026-06-29"
