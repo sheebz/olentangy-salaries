@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this dataset or pipeline, please cite it as below, and credit The Columbus Dispatch as the original source of the payroll data."
+title: "Olentangy School District Employee Salaries (2025)"
+abstract: >-
+  Gross pay for 4,238 employees of Olentangy Local School District (Delaware and
+  Franklin Counties, Ohio) for calendar year 2025, published as an analysis-ready
+  dataset alongside the Dagster pipeline that produces it. The district's published
+  position field packs multiple jobs into one delimited string; this dataset splits
+  it into a role-level table and extracts contracted days per year, while leaving
+  pay figures exactly as published. Employee names are removed. Derived from The
+  Columbus Dispatch's central Ohio public payroll database.
+type: dataset
+authors:
+  - family-names: Schieber
+    given-names: Rob
+    alias: robschieber
+license: CC-BY-4.0
+keywords:
+  - education
+  - government
+  - employment
+  - public sector
+  - ohio
+  - salaries
+date-released: "2026-09-19"
+
+# The upstream compilation this dataset derives from. Credit belongs here: the
+# payroll figures are Ohio public record, but the records request and the database
+# are the Dispatch's work.
+references:
+  - type: database
+    title: "Public payroll: how central Ohio government agencies spend your money"
+    abstract: >-
+      Searchable database of payrolls for public, taxpayer-funded agencies across
+      the greater Columbus area, obtained through public records requests.
+    authors:
+      - name: "The Columbus Dispatch"
+    url: "https://www.dispatch.com/story/news/local/2026/06/29/public-payroll-how-central-ohio-government-agencies-spend-your-money/90691984007/"
+    year: 2026
+    notes: >-
+      The Dispatch notes that pay classified as "other" can include holiday or
+      vacation time, accrued time, and miscellaneous pay or stipends, and that AI
+      tools were used to help organize and clean the source database.
