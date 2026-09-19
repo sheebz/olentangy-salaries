@@ -15,6 +15,10 @@ authors:
     given-names: Rob
     alias: robschieber
 license: CC-BY-4.0
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22849877"
+    description: "Archived snapshot on Zenodo (release v2025.3)"
 keywords:
   - education
   - government

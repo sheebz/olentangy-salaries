@@ -1,5 +1,7 @@
 # Olentangy School District Salaries
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22849877.svg)](https://doi.org/10.5281/zenodo.22849877)
+
 A Dagster pipeline that turns Olentangy Local School District's published payroll into an
 analysis-ready Kaggle dataset, plus the EDA notebook that goes with it.
 
@@ -106,5 +108,15 @@ not individuals.
 
 ## Citing
 
-See [`CITATION.cff`](CITATION.cff). Credit The Columbus Dispatch as the source of the payroll
-data — the figures are Ohio public record, but the records request and compilation are theirs.
+> Schieber, R. (2026). *Olentangy School District Employee Salaries (2025)*.
+> Zenodo. https://doi.org/10.5281/zenodo.22849877
+
+The DOI above resolves to a specific release. Zenodo also issues a **concept DOI** that always
+resolves to the newest version — prefer that one when citing the dataset generally rather than
+a fixed snapshot; it's shown on the Zenodo record under "Cite all versions".
+
+Machine-readable metadata lives in [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this
+repository") and [`.zenodo.json`](.zenodo.json) (the Zenodo record for each release).
+
+Please also credit **The Columbus Dispatch** as the source of the payroll data — the figures
+are Ohio public record, but the records request and compilation are theirs.

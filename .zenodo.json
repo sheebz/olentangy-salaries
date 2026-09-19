@@ -1,0 +1,37 @@
+{
+  "upload_type": "dataset",
+  "title": "Olentangy School District Employee Salaries (2025)",
+  "description": "<p>Gross pay for 4,238 employees of Olentangy Local School District (Delaware and Franklin Counties, Ohio) for calendar year 2025, published as an analysis-ready dataset alongside the Dagster pipeline that produces it.</p><p>The district's published position field packs multiple jobs into one delimited string; this dataset splits it into a role-level table and extracts contracted days per year, while leaving pay figures exactly as published. Employee names are removed. No job families, pay bands or rankings are imposed &mdash; several district payroll codes (CMF, CLAS-NON, LT-PLCMT, UNIV-PLA) have no published key and are passed through verbatim rather than guessed at.</p><p>Derived from The Columbus Dispatch's central Ohio public payroll database, obtained by them through a public records request. Gross pay includes overtime, stipends, holiday and accrued time, and is not contracted salary.</p>",
+  "creators": [
+    {
+      "name": "Schieber, Rob"
+    }
+  ],
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "education",
+    "government",
+    "employment",
+    "public sector",
+    "salaries",
+    "ohio",
+    "open data",
+    "public records"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://www.kaggle.com/datasets/robschieber/olentangy-school-district-salaries-2025",
+      "relation": "isIdenticalTo",
+      "resource_type": "dataset",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://www.dispatch.com/story/news/local/2026/06/29/public-payroll-how-central-ohio-government-agencies-spend-your-money/90691984007/",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "url"
+    }
+  ]
+}
