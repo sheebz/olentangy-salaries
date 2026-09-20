@@ -217,9 +217,10 @@ def kaggle_bundle() -> dg.MaterializeResult:
         ["| Role | Employees | Median gross pay |", "|---|---|---|"]
         + [f"| {role} | {n:,} | ${med:,.0f} |" for role, n, med in top_roles]
     )
+    multi_pct = 100 * multi / employees
     description = DESCRIPTION.format(
         employees=employees, role_rows=role_rows, distinct_roles=distinct_roles, total=total,
-        median=median, max_pay=max_pay, multi=multi, multi_pct=100 * multi / employees,
+        median=median, max_pay=max_pay, multi=multi, multi_pct=multi_pct,
         role_table=role_table, period=PERIOD, with_days=with_days, dash0_roles=dash0_roles,
         dash0_employees=dash0_employees, dash0_multi=dash0_multi, dash0_median=dash0_median,
         teacher_median=teacher_median, source_name=SOURCE_NAME, source_url=SOURCE_URL,
@@ -269,12 +270,31 @@ def kaggle_bundle() -> dg.MaterializeResult:
         "resources": [
             {
                 "path": "olentangy_salaries.csv",
-                "description": f"One row per employee ({employees:,}): surrogate id, raw position string, contract days where published, and 2025 gross pay in USD.",
+                "description": (
+                    f"The primary file: one row per employee, {employees:,} rows. "
+                    f"employee_id is a surrogate key created by this pipeline, not a district "
+                    f"identifier. positions is the district's raw semicolon-delimited position "
+                    f"string, kept verbatim. contract_days is the contracted days per year where "
+                    f"the role string publishes one ({with_days:,} employees) and null otherwise. "
+                    f"gross_pay is calendar year 2025 gross pay in USD and includes overtime, "
+                    f"stipends, holiday and accrued time, so it is not contracted salary. "
+                    f"Employee names are deliberately excluded. Join to "
+                    f"olentangy_salary_roles.csv on employee_id to analyse at role level."
+                ),
                 "schema": {"fields": fields(gold_cols, COLUMN_DOCS)},
             },
             {
                 "path": "olentangy_salary_roles.csv",
-                "description": f"One row per employee-role ({role_rows:,}); joins to olentangy_salaries.csv on employee_id.",
+                "description": (
+                    f"One row per employee-role: {role_rows:,} rows across {distinct_roles} "
+                    f"distinct roles. {multi_pct:.0f}% of employees hold more than one position, "
+                    f"so this file unnests the semicolon-delimited position string rather than "
+                    f"making you parse it. role is the label verbatim; role_base strips the "
+                    f"trailing contract-day count and the '-0' suffix so SECRETARY 183/226/260 "
+                    f"group as one role; contract_days is the parsed day count; role_seq is the "
+                    f"position within the original string, starting at 1. Contains no pay column "
+                    f"— join to olentangy_salaries.csv on employee_id for gross_pay."
+                ),
                 "schema": {"fields": fields(role_cols, ROLE_COLUMN_DOCS)},
             },
         ],
