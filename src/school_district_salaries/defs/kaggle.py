@@ -209,8 +209,9 @@ def kaggle_bundle() -> dg.MaterializeResult:
               (SELECT median(g.gross_pay) FROM salary_roles r JOIN salaries_gold g
                  USING (employee_id) WHERE r.role = 'TEACHER')
         """).fetchone()
-        gold_cols = [c[0] for c in con.sql("DESCRIBE salaries_gold").fetchall()]
-        role_cols = [c[0] for c in con.sql("DESCRIBE salary_roles").fetchall()]
+        # (name, duckdb_type) so the Kaggle column type is derived, not hand-maintained
+        gold_cols = [(c[0], c[1]) for c in con.sql("DESCRIBE salaries_gold").fetchall()]
+        role_cols = [(c[0], c[1]) for c in con.sql("DESCRIBE salary_roles").fetchall()]
 
     role_table = "\n".join(
         ["| Role | Employees | Median gross pay |", "|---|---|---|"]
@@ -226,7 +227,15 @@ def kaggle_bundle() -> dg.MaterializeResult:
     )
 
     def fields(cols, docs):
-        return [{"name": c, "description": docs.get(c, "")} for c in cols]
+        # Kaggle drops columns it can't type, so emit one for every field.
+        return [
+            {
+                "name": name,
+                "description": docs.get(name, ""),
+                "type": "string" if "VARCHAR" in dtype.upper() else "numeric",
+            }
+            for name, dtype in cols
+        ]
 
     metadata = {
         "title": "Olentangy School District Employee Salaries (2025)",
@@ -241,13 +250,18 @@ def kaggle_bundle() -> dg.MaterializeResult:
         # `datasets version` — see the publish-metadata make target. The frequency must be
         # lowercase; "Annually" is rejected.
         "expectedUpdateFrequency": "annually",
+        # Kaggle has no DOI field and auto-generates its own citation, so the DOI goes
+        # here — provenance is the one free-text field that renders in the metadata tab.
         "userSpecifiedSources": (
+            f"Cite as: Schieber, R. (2026). Olentangy School District Employee Salaries "
+            f"(2025). Zenodo. https://doi.org/{DOI}\n\n"
             f"Obtained by The Columbus Dispatch through a public records request and published "
             f"{PUBLISHED} in their searchable database of central Ohio public payrolls, part of "
             f"an ongoing series covering school districts, local governments and colleges. This "
             f"dataset is the Olentangy Local School District subset, reprocessed through a "
             f"Dagster bronze/silver/gold pipeline that types the pay figures, splits the "
-            f"multi-role position field and removes employee names. {SOURCE_URL}"
+            f"multi-role position field and removes employee names. Source: {SOURCE_URL} — "
+            f"pipeline source code: {REPO_URL}"
         ),
         # Kaggle caps the tag count and only accepts its own tag slugs — an over-long or
         # invented list fails the whole create with "max category limit"
@@ -271,7 +285,7 @@ def kaggle_bundle() -> dg.MaterializeResult:
     # undescribed data file and cost usability points.
     (GOLD_DIR / "README.md").write_text(description)
 
-    missing = [c for c in gold_cols + role_cols if c not in COLUMN_DOCS and c not in ROLE_COLUMN_DOCS]
+    missing = [c for c, _ in gold_cols + role_cols if c not in COLUMN_DOCS and c not in ROLE_COLUMN_DOCS]
     files = sorted(p.name for p in KAGGLE_DIR.iterdir() if p.is_file())
     return dg.MaterializeResult(
         metadata={
