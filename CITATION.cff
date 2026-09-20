@@ -17,8 +17,11 @@ authors:
 license: CC-BY-4.0
 identifiers:
   - type: doi
+    value: "10.5281/zenodo.22849876"
+    description: "Concept DOI — always resolves to the latest release"
+  - type: doi
     value: "10.5281/zenodo.22849877"
-    description: "Archived snapshot on Zenodo (release v2025.3)"
+    description: "Version DOI for release v2025.3"
 keywords:
   - education
   - government

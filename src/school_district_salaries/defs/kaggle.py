@@ -21,9 +21,10 @@ PERIOD = "calendar year 2025"
 SOURCE_NAME = "The Columbus Dispatch public payroll database"
 PUBLISHED = "2026-06-29"
 REPO_URL = "https://github.com/sheebz/olentangy-salaries"
-# Version DOI for release v2025.3. Swap for the concept DOI ("Cite all versions" on the
-# Zenodo record) once known, so citations follow the newest annual refresh.
-DOI = "10.5281/zenodo.22849877"
+# Concept DOI: always resolves to the newest release, so citations survive the annual
+# refresh. Each release also gets its own version DOI (v2025.3 is ...877) for anyone
+# who needs to pin an exact snapshot.
+DOI = "10.5281/zenodo.22849876"
 SOURCE_URL = (
     "https://www.dispatch.com/story/news/local/2026/06/29/"
     "public-payroll-how-central-ohio-government-agencies-spend-your-money/90691984007/"
