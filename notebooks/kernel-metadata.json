@@ -1,0 +1,17 @@
+{
+  "id": "robschieber/olentangy-salaries-eda",
+  "title": "Olentangy Salaries: EDA",
+  "code_file": "eda.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "false",
+  "enable_tpu": "false",
+  "enable_internet": "false",
+  "dataset_sources": [
+    "robschieber/olentangy-school-district-salaries-2025"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

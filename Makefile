@@ -6,10 +6,11 @@ JUPYTER_PORT ?= 8888
 DATA := data
 COVER := assets/dataset-cover-image.jpg
 
-KAGGLE_ID := robschieber/olentangy-school-district-salaries-2025
+KAGGLE_USER := robschieber
+KAGGLE_ID := $(KAGGLE_USER)/olentangy-school-district-salaries-2025
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build check test notebook publish publish-metadata publish-cover clean distclean
+.PHONY: help install dev build check test notebook publish publish-metadata publish-cover publish-kernel clean distclean
 
 help: ## List available targets
 	@grep -hE '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | sort | \
@@ -42,6 +43,12 @@ publish: test ## Push data + metadata to Kaggle (M="version notes")
 publish-metadata: ## Apply file/column descriptions, provenance and update frequency
 	@# `datasets version` silently ignores all of these; only --update applies them
 	.venv/bin/kaggle datasets metadata --update $(KAGGLE_ID) -p data/kaggle
+
+publish-kernel: ## Push notebooks/eda.ipynb as the public Kaggle kernel
+	@# re-executes it locally first so the published copy carries current outputs
+	.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/eda.ipynb
+	.venv/bin/kaggle kernels push -p notebooks
+	@echo 'https://www.kaggle.com/code/$(KAGGLE_USER)/olentangy-salaries-eda'
 
 publish-cover: ## Upload assets/dataset-cover-image.jpg as the dataset cover
 	@test -f $(COVER) || (echo 'missing $(COVER)' && exit 1)
